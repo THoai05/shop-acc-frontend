@@ -252,3 +252,14 @@ footer a {
     color: #3c97bf;
     text-decoration: none;
 }
+
+.input-row {
+    display: block;
+    gap: 20px;
+    width: 80%;
+}
+
+.custom-input {
+    flex: 1;
+    box-sizing: border-box;
+}

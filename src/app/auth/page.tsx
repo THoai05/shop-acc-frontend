@@ -1,40 +1,147 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import "./auth.css";
-import { Dialog } from "primereact/dialog";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
-import { TabView, TabPanel } from "primereact/tabview";
+import { registerUser, loginUser } from "../../service/authService";
 
 export default function AuthPage() {
     const [isRightPanelActive, setIsRightPanelActive] = useState(false);
+    const router = useRouter();
+
+    // Lưu lỗi và success riêng cho mỗi form
+    const [registerErrors, setRegisterErrors] = useState<{ [key: string]: string[] }>({});
+    const [loginErrors, setLoginErrors] = useState<{ [key: string]: string[] }>({});
+    const [registerSuccess, setRegisterSuccess] = useState("");
+    const [loginSuccess, setLoginSuccess] = useState("");
+
+    // State form đăng ký
+    const [registerData, setRegisterData] = useState({
+        username: "",
+        email: "",
+        password: ""
+    });
+
+    // State form đăng nhập
+    const [loginData, setLoginData] = useState({
+        username: "",
+        password: ""
+    });
+
+    // Xử lý đăng ký
+    const handleRegister = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setRegisterErrors({});
+        setRegisterSuccess("");
+        try {
+            const data = await registerUser(registerData);
+            if (data.errors) {
+                setRegisterErrors(data.errors);
+            } else {
+                setRegisterSuccess("Đăng ký thành công");
+                setRegisterData({ username: "", email: "", password: "" }); // reset input
+            }
+        } catch (err: any) {
+            if (err.response?.status === 422) {
+                setRegisterErrors(err.response.data.errors || {});
+            } else {
+                console.error("Register error:", err);
+            }
+        }
+    };
+
+    // Xử lý đăng nhập
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoginErrors({});
+        setLoginSuccess("");
+        try {
+            const data = await loginUser(loginData);
+            if (data.errors) {
+                setLoginErrors(data.errors);
+            } else {
+                setLoginSuccess("Đăng nhập thành công");
+                setLoginData({ username: "", password: "" });
+            }
+
+            // Chuyển hướng dựa trên role
+            if (data.user.role === "admin") {
+                router.push("admin/dashboard");
+            } else if (data.user.role === "user") {
+                router.push("/");
+            } else {
+                router.push("/");
+            }
+        } catch (err: any) {
+            if (err.response) {
+                if (err.response.status === 422) {
+                    setLoginErrors(err.response.data.errors || {});
+                } else if (err.response.status === 401) {
+                    // Lỗi 401: Sai username hoặc password
+                    setLoginErrors({ general: [err.response.data.message || "Sai username hoặc mật khẩu"] });
+                } else {
+                    setLoginErrors({ general: ["Lỗi không xác định, vui lòng thử lại"] });
+                }
+            } else {
+                console.error("Login error:", err);
+            }
+        }
+    };
+
 
     return (
         <div className={`container ${isRightPanelActive ? "right-panel-active" : ""}`}>
-            {/* Sign Up Form */}
+            {/* Form Đăng ký */}
             <div className="form-container sign-up-container">
-                <form action="#">
+                <form onSubmit={handleRegister}>
                     <h1 className="text-xl">Đăng ký</h1>
                     <div className="social-container">
                         <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>
                         <a href="#" className="social"><i className="fab fa-google-plus-g"></i></a>
                         <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
                     </div>
-                    <span>hoặc sử đụng email của bạn để đăng ký</span>
+                    <span>hoặc sử dụng email của bạn để đăng ký</span>
+                    {registerSuccess && <p style={{ color: 'green' }}>{registerSuccess}</p>}
                     <div className="p-fluid flex flex-col">
-                        <InputText type="text" placeholder="Name" className="custom-input" />
-                        <InputText type="email" placeholder="Email" className="custom-input" />
-                        <Password placeholder="Password" className="custom-input" feedback={false} toggleMask />
-                    </div>
+                        <InputText
+                            type="text"
+                            placeholder="Tên người dùng"
+                            className="custom-input"
+                            value={registerData.username}
+                            onChange={(e) => setRegisterData({ ...registerData, username: e.target.value })}
+                        />
+                        {registerErrors.username && <small style={{ color: "red" }}>{registerErrors.username[0]}</small>}
 
-                    <Button>Đăng ký</Button>
+                        <InputText
+                            type="email"
+                            placeholder="Email"
+                            className="custom-input"
+                            value={registerData.email}
+                            onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
+                        />
+                        {registerErrors.email && <small style={{ color: "red" }}>{registerErrors.email[0]}</small>}
+
+                        <Password
+                            placeholder="Mật khẩu"
+                            className="custom-input"
+                            feedback={false}
+                            toggleMask
+                            value={registerData.password}
+                            onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
+                        />
+                        {registerErrors.password && <small style={{ color: "red" }}>{registerErrors.password[0]}</small>}
+                    </div>
+                    <div className="pt-4">
+                        <Button type="submit">Đăng ký</Button>
+                    </div>
                 </form>
             </div>
 
-            {/* Sign In Form */}
+            {/* Form Đăng nhập */}
             <div className="form-container sign-in-container">
-                <form action="#">
+                <form onSubmit={handleLogin}>
                     <h1 className="text-xl">Đăng nhập</h1>
                     <div className="social-container">
                         <a href="#" className="social"><i className="fab fa-facebook-f"></i></a>
@@ -42,13 +149,35 @@ export default function AuthPage() {
                         <a href="#" className="social"><i className="fab fa-linkedin-in"></i></a>
                     </div>
                     <span>or use your account</span>
-                    <input type="email" placeholder="Email" />
-                    <input type="password" placeholder="Password" />
-                    <a href="#">Forgot your password?</a>
-                    <button>Sign In</button>
+                    {loginSuccess && <p style={{ color: "green" }}>{loginSuccess}</p>}
+                    <div className="input-row">
+                        <InputText
+                            type="text"
+                            className="custom-input"
+                            placeholder="Tên người dùng"
+                            value={loginData.username}
+                            onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
+                        />
+
+                        <Password
+                            placeholder="Mật khẩu"
+                            className="custom-input"
+                            feedback={false}
+                            toggleMask
+                            value={loginData.password}
+                            onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                        />
+                        {loginErrors.general && (
+                            <small style={{ color: "red", marginTop: "5px", display: "block" }}>
+                                {loginErrors.general[0]}
+                            </small>
+                        )}
+                    </div>
+                    <div className="pt-4">
+                        <Button type="submit">Đăng nhập</Button>
+                    </div>
                 </form>
             </div>
-
             {/* Overlay */}
             <div className="overlay-container">
                 <div className="overlay">
@@ -58,8 +187,8 @@ export default function AuthPage() {
                             alt="Login Icon"
                             style={{ width: "190px", marginBottom: "10px" }}
                         />
-                        <h1>Welcome Back!</h1>
-                        <p>To keep connected with us please login with your personal info</p>
+                        <h1>XLVISUDEPTRAINAY XIN CHÀO</h1>
+                        <p>Nếu bạn đã có tài khoản , vui lòng đăng nhập tại đây!</p>
                         <button className="ghost" onClick={() => setIsRightPanelActive(false)}>
                             Sign In
                         </button>
@@ -71,7 +200,7 @@ export default function AuthPage() {
                             style={{ width: "190px", marginBottom: "10px" }}
                         />
                         <h1>XLVISUDEPTRAINAY XIN CHÀO</h1>
-                        <p>Vui lòng đăng ký ngay tại đây</p>
+                        <p>Vui lòng đăng ký ngay tại đây!</p>
                         <button className="ghost" onClick={() => setIsRightPanelActive(true)}>
                             Sign Up
                         </button>
