@@ -21,10 +21,23 @@ export async function CreateAccount(data: any) {
     );
 }
 
-export async function EditAccount(data: any) {
-    return await api.put("/accounts", data);
+export async function EditAccount(id: number, data: any) {
+    const token = localStorage.getItem("token");
+    return api.put(`/accounts/${id}`, data,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        }
+    );
 }
 
-export async function DeleteAccount(data: any) {
-    return await api.delete("/accounts", data);
+export async function DeleteAccount(id: number, data: any) {
+    const token = localStorage.getItem("token");
+    return await api.delete(`/accounts/${id}`, {
+        data: data,
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
+    });
 }
