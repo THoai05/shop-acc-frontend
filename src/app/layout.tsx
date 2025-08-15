@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import 'primereact/resources/themes/lara-light-blue/theme.css'; // Theme
-import 'primereact/resources/primereact.min.css';               // Core
-import 'primeicons/primeicons.css';                             // Icons
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,10 +13,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Auth Form",
-  description: "Sign In / Sign Up Page",
-};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -30,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         />
       </head>
+
       <body>{children}</body>
     </html>
   );

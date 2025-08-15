@@ -5,7 +5,13 @@ export async function registerUser(data: any) {
     return res.data;
 }
 
-export async function loginUser(data: any) {
-    const res = await api.post("/login", data, { withCredentials: true });
+export async function loginUser(data: { username: string; password: string }) {
+    const res = await api.post("/login", data);
+
+    localStorage.setItem("token", res.data.token);
     return res.data;
+}
+
+export async function logoutUser() {
+    await api.post("/logout");
 }

@@ -9,6 +9,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                 <nav>
                     <ul>
                         <li><Link href="/admin/accounts">Quản lý Acc</Link></li>
+                        <li><Link href="/admin/games">Quản lý Game</Link></li>
                         <li><Link href="/admin/orders">Quản lý Đơn hàng</Link></li>
                         <li><Link href="/admin/users">Quản lý User</Link></li>
                     </ul>

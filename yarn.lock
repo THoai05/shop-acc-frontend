@@ -2244,6 +2244,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"framer-motion@npm:^12.23.12":
+  version: 12.23.12
+  resolution: "framer-motion@npm:12.23.12"
+  dependencies:
+    motion-dom: "npm:^12.23.12"
+    motion-utils: "npm:^12.23.6"
+    tslib: "npm:^2.4.0"
+  peerDependencies:
+    "@emotion/is-prop-valid": "*"
+    react: ^18.0.0 || ^19.0.0
+    react-dom: ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    "@emotion/is-prop-valid":
+      optional: true
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 10c0/40dfb57bf714075c4f6dd0bbe5b84dd11310114474ebf603846ef9b888ed475fa653271c1fd98ec57a6a1d0b781cdf8b3ebcd5e2c6a3620e934b46304ae0fd39
+  languageName: node
+  linkType: hard
+
 "function-bind@npm:^1.1.2":
   version: 1.1.2
   resolution: "function-bind@npm:1.1.2"
@@ -2373,6 +2395,13 @@ __metadata:
   version: 1.4.0
   resolution: "graphemer@npm:1.4.0"
   checksum: 10c0/e951259d8cd2e0d196c72ec711add7115d42eb9a8146c8eeda5b8d3ac91e5dd816b9cd68920726d9fd4490368e7ed86e9c423f40db87e2d8dfafa00fa17c3a31
+  languageName: node
+  linkType: hard
+
+"gsap@npm:^3.13.0":
+  version: 3.13.0
+  resolution: "gsap@npm:3.13.0"
+  checksum: 10c0/a42dd2e02467a4abe96409aaf6cd0e5d697c72e05ec13c18c2271330493983aa63cc717c9dd0740fda2f884d0f56c7b98fc18b13500f0c1da94864985840da7c
   languageName: node
   linkType: hard
 
@@ -3093,6 +3122,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"motion-dom@npm:^12.23.12":
+  version: 12.23.12
+  resolution: "motion-dom@npm:12.23.12"
+  dependencies:
+    motion-utils: "npm:^12.23.6"
+  checksum: 10c0/1b6a4b86c1aed5b5da7b8a5d1f8310ad169125235bdc1953b8c41cf9f4e2c460ee90bb48ffdae54daecb8db1d7006566ceb5f5c9ccdc82606d548c527cb2631e
+  languageName: node
+  linkType: hard
+
+"motion-utils@npm:^12.23.6":
+  version: 12.23.6
+  resolution: "motion-utils@npm:12.23.6"
+  checksum: 10c0/c058e8ba6423b3baa63e985bcc669877ee7d9579d938f5348b4e60c5ea1b4b33dd7f4877434436a4a5807f3cf00370d3fd4079a6fdd6309c5c87aa62b311a897
+  languageName: node
+  linkType: hard
+
 "ms@npm:^2.1.1, ms@npm:^2.1.3":
   version: 2.1.3
   resolution: "ms@npm:2.1.3"
@@ -3484,10 +3529,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-icons@npm:^5.5.0":
+  version: 5.5.0
+  resolution: "react-icons@npm:5.5.0"
+  peerDependencies:
+    react: "*"
+  checksum: 10c0/a24309bfc993c19cbcbfc928157e53a137851822779977b9588f6dd41ffc4d11ebc98b447f4039b0d309a858f0a42980f6bfb4477fb19f9f2d1bc2e190fcf79c
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.13.1":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: 10c0/33977da7a5f1a287936a0c85639fec6ca74f4f15ef1e59a6bc20338fc73dc69555381e211f7a3529b8150a1f71e4225525b41b60b52965bda53ce7d47377ada1
+  languageName: node
+  linkType: hard
+
+"react-parallax-tilt@npm:^1.7.304":
+  version: 1.7.304
+  resolution: "react-parallax-tilt@npm:1.7.304"
+  peerDependencies:
+    react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10c0/d70c25afe3a233159fc633aa20b3247829cc6f1a0a2bd9f440b08d7f336f513034ed0a3e44b5268fae821348710a7bb37a980d06bdc3ba9388391f2a31479b21
   languageName: node
   linkType: hard
 
@@ -3828,12 +3892,16 @@ __metadata:
     axios: "npm:^1.11.0"
     eslint: "npm:^9"
     eslint-config-next: "npm:15.4.6"
+    framer-motion: "npm:^12.23.12"
+    gsap: "npm:^3.13.0"
     next: "npm:^15.4.6"
     postcss: "npm:^8.5.6"
     primeicons: "npm:^7.0.0"
     primereact: "npm:^10.9.6"
     react: "npm:^19.1.0"
     react-dom: "npm:^19.1.0"
+    react-icons: "npm:^5.5.0"
+    react-parallax-tilt: "npm:^1.7.304"
     tailwindcss: "npm:^4.1.11"
     typescript: "npm:^5.9.2"
   languageName: unknown
